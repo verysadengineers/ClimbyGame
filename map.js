@@ -1,8 +1,9 @@
-export function generateMap(gameScene){
+export function generateMap(gameScene, player){
 
   let tiles = gameScene.physics.add.staticGroup();
-  let tileSize = 22;
-  var x=20;
+  let tileSize = 30;
+  let middleWidth = 400;
+  var x=12;
   var y=10;
   var n=x*y-1;
   	if (n<0) {alert("illegal maze dimensions");return;}
@@ -51,19 +52,19 @@ export function generateMap(gameScene){
     		if (0 == j%2)
     			for (k=0; k<y*4+1; k++)
     				if (0 == k%4)
-    					tiles.create(j*tileSize, k*tileSize, 'tiles').setOrigin(0,0);
+    					tiles.create(j*tileSize/2 + (player ? 0 : middleWidth), k*tileSize/2, 'tiles').setScale(0.5).setOrigin(0);
     				else
     					if (j>0 && verti[j/2-1][Math.floor(k/4)])
     					     console.log("path")
     					else
-    						tiles.create(j*tileSize, k*tileSize, 'tiles').setOrigin(0,0);
+    						tiles.create(j*tileSize/2 + (player ? 0 : middleWidth), k*tileSize/2, 'tiles').setScale(0.5).setOrigin(0);
     		else
     			for (k=0; k<y*4+1; k++)
     				if (0 == k%4)
     					if (k>0 && horiz[(j-1)/2][k/4-1])
     						console.log("path");
     					else
-    						tiles.create(j*tileSize, k*tileSize, 'tiles').setOrigin(0,0);
+    						tiles.create(j*tileSize/2 + (player ? 0 : middleWidth), k*tileSize/2, 'tiles').setScale(0.5).setOrigin(0);
     				else
     					console.log("path")
     		if (0 == j)
