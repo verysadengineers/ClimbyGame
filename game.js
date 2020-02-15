@@ -17,8 +17,8 @@ var config = {
     }
 };
 
-var cursors;
-var wasd;
+var player_one_controller;
+var player_two_controller;
 var player_one;
 var player_two;
 //var mainCamera;
@@ -38,38 +38,17 @@ function create ()
     //mainCamera = this.cameras.main;
     this.add.image(400, 300, 'sky');
 
-    var particles = this.add.particles('bomb');
-
-    var emitter = particles.createEmitter({
-        speed: 100,
-        scale: { start: 1, end: 0 },
-        blendMode: 'ADD'
-    });
-
-    var star = this.physics.add.image(400, 100, 'star');
-
-    star.setVelocity(100, 200);
-    star.setBounce(1, 1);
-    star.setCollideWorldBounds(true);
-
-    cursors = this.input.keyboard.createCursorKeys();
-    wasd = this.input.keyboard.addKeys(
-        {up:Phaser.Input.Keyboard.KeyCodes.W,
-        down:Phaser.Input.Keyboard.KeyCodes.S,
-        left:Phaser.Input.Keyboard.KeyCodes.A,
-        right:Phaser.Input.Keyboard.KeyCodes.D});
-
     player_one = Player.createPlayerOne(this);
-    player_two = Player.createPlayerTwo(this.physics);
-    console.log("1: (" + player_one.x + "," + player_one.y + ") 2: (" + player_two.x + "," + player_two.y + ")");
+    player_two = Player.createPlayerTwo(this);
 
-    emitter.startFollow(star);
+    Player.initAnimations(this);
+
+    player_one_controller = Player.initPlayerOneController(this);
+    player_two_controller = Player.initPlayerTwoController(this);
 }
 
 function update()
 {
     //mainCamera += 0.5;
-    if (player_one != null) {
-        Player.handlePlayerMovement(cursors, wasd, player_one, player_two);
-    }
+    Player.handlePlayerMovement(player_one_controller, player_two_controller, player_one, player_two);
 }
