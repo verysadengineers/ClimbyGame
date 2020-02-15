@@ -12,15 +12,21 @@ var config = {
     },
     scene: {
         preload: preload,
-        create: create
+        create: create,
+        update: update,
     }
 };
+
+var cursors;
+var wasd;
+var player_one;
+var player_two;
 
 var game = new Phaser.Game(config);
 
 function preload ()
 {
-    this.load.image('dude', 'assets/dude.png');
+    this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
     this.load.image('sky', 'assets/sky.png');
     this.load.image('star', 'assets/star.png');
     this.load.image('bomb', 'assets/bomb.png');
@@ -44,8 +50,23 @@ function create ()
     star.setBounce(1, 1);
     star.setCollideWorldBounds(true);
 
-    let player_one = Player.createPlayerOne(this.physics);
-    let player_two = Player.createPlayerTwo(this.physics);
+    cursors = this.input.keyboard.createCursorKeys();
+    wasd = this.input.keyboard.addKeys(
+        {up:Phaser.Input.Keyboard.KeyCodes.W,
+        down:Phaser.Input.Keyboard.KeyCodes.S,
+        left:Phaser.Input.Keyboard.KeyCodes.A,
+        right:Phaser.Input.Keyboard.KeyCodes.D});
+
+    player_one = Player.createPlayerOne(this);
+    player_two = Player.createPlayerTwo(this.physics);
+    console.log("1: (" + player_one.x + "," + player_one.y + ") 2: (" + player_two.x + "," + player_two.y + ")");
 
     emitter.startFollow(star);
+}
+
+function update()
+{
+    if (player_one != null) {
+        Player.handlePlayerMovement(cursors, wasd, player_one, player_two);
+    }
 }
