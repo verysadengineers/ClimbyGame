@@ -1,3 +1,5 @@
+import * as Player from '/player.js'
+
 var config = {
     type: Phaser.AUTO,
     width: 800,
@@ -5,7 +7,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 200 }
+            gravity: { y: 0 }
         }
     },
     scene: {
@@ -18,6 +20,7 @@ var game = new Phaser.Game(config);
 
 function preload ()
 {
+    this.load.image('dude', 'assets/dude.png');
     this.load.image('sky', 'assets/sky.png');
     this.load.image('star', 'assets/star.png');
     this.load.image('bomb', 'assets/bomb.png');
@@ -40,6 +43,9 @@ function create ()
     star.setVelocity(100, 200);
     star.setBounce(1, 1);
     star.setCollideWorldBounds(true);
+
+    let player_one = Player.createPlayerOne(this.physics);
+    let player_two = Player.createPlayerTwo(this.physics);
 
     emitter.startFollow(star);
 }
