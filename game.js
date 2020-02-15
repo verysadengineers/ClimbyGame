@@ -1,11 +1,10 @@
 import * as Player from '/player.js'
 import * as Map from '/map.js'
-import MazePlugin from './node_modules/phaser/src/plugins/MazePlugin.js'
 
 var config = {
     type: Phaser.AUTO,
-    width: 900,
-    height: 600,
+    width: 800,
+    height: 1800,
     physics: {
         default: 'arcade',
         arcade: {
