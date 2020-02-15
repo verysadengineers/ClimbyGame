@@ -21,6 +21,7 @@ var cursors;
 var wasd;
 var player_one;
 var player_two;
+var mainCamera;
 
 var game = new Phaser.Game(config);
 
@@ -34,6 +35,7 @@ function preload ()
 
 function create ()
 {
+    mainCamera = this.cameras.main;
     this.add.image(400, 300, 'sky');
 
     var particles = this.add.particles('bomb');
@@ -62,10 +64,14 @@ function create ()
     console.log("1: (" + player_one.x + "," + player_one.y + ") 2: (" + player_two.x + "," + player_two.y + ")");
 
     emitter.startFollow(star);
+
+    //player_one.scrollFactor(0);
+    //player_two.setScrollFactor(0);
 }
 
 function update()
 {
+    mainCamera.scrollY -= 0.5;
     if (player_one != null) {
         Player.handlePlayerMovement(cursors, wasd, player_one, player_two);
     }
