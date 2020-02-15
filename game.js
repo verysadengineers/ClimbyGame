@@ -21,6 +21,7 @@ var cursors;
 var wasd;
 var player_one;
 var player_two;
+//var mainCamera;
 
 var game = new Phaser.Game(config);
 
@@ -34,6 +35,7 @@ function preload ()
 
 function create ()
 {
+    //mainCamera = this.cameras.main;
     this.add.image(400, 300, 'sky');
 
     var particles = this.add.particles('bomb');
@@ -66,6 +68,7 @@ function create ()
 
 function update()
 {
+    //mainCamera += 0.5;
     if (player_one != null) {
         Player.handlePlayerMovement(cursors, wasd, player_one, player_two);
     }
