@@ -1,8 +1,10 @@
 import * as Player from '/player.js'
+import * as Map from '/map.js'
+import MazePlugin from './node_modules/phaser/src/plugins/MazePlugin.js'
 
 var config = {
     type: Phaser.AUTO,
-    width: 800,
+    width: 900,
     height: 600,
     physics: {
         default: 'arcade',
@@ -30,7 +32,8 @@ function preload ()
     this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
     this.load.image('sky', 'assets/sky.png');
     this.load.image('star', 'assets/star.png');
-    this.load.image('bomb', 'assets/bomb.png');
+    this.load.image('tiles', 'assets/tiles.png')
+    //this.load.image('bomb', 'assets/bomb.png');
 }
 
 function create ()
@@ -45,6 +48,10 @@ function create ()
 
     player_one_controller = Player.initPlayerOneController(this);
     player_two_controller = Player.initPlayerTwoController(this);
+
+    let player1Map = Map.generateMap(this, 0);
+    let player2Map = Map.generateMap(this, 1);
+
 }
 
 function update()
