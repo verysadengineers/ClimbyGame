@@ -1,30 +1,31 @@
-//Title Scene extends Scene Class
+//Start Scene extends Scene Class
+// import EndScene from './EndScene.js';
 var width = 900; 
 var height = 600; 
+
 class TitleScene extends Phaser.Scene{
   constructor(){
-  super({key:'TitleScene', active: true}); 
+  super({key:'titleScene', active: true}); 
   }
   
-  // Loads BG image 
   preload(){
-    // this.load.image('mountainBG','./assets/Title/sampleBG.jpg');
+    // Loads BG image 
     this.load.image('sky','./assets/sky.png');
   }
 
   create(){
+    // sets BG image
     let bg = this.add.sprite(0, 0, 'sky');
     bg.setOrigin(0, 0);
-    //this.title_text = this.add.text(100, 200, "Hello, Title!");
 
-    // label for Start button
-    start_label = this.add.text(width/2, height/2, 'Start', {font: '24px Arial', fill: '#fff'});
-    start_label.inputEnabled = true;
-    start_label.events.onInputUp.add(function (){
-        //this.start = true;
-    })
+    // creates Start button
+    const start_Button = this.add.text(width/2, height-100, 'Click anyhere to start!', { fill: '#ff0' })
+    .setInteractive()
+    .on('pointerdown', () => {console.log("Log: Start button clicked")});
+    this.input.on('pointerdown', () => this.scene.start("EndScene")); //should be main game.js key
   }
-}
 
+}
 export default TitleScene; 
-console.log("Log: Entered titleScene.js");
+console.log("Log: Entered TitleScene.js");
+

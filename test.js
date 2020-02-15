@@ -1,6 +1,8 @@
 import TitleScene from './titleScene.js';
+// import EndScene from './EndScene.js';
 
 let titleScene = new TitleScene; 
+// let endScene = new EndScene;
 
 var config = {
     type: Phaser.AUTO,

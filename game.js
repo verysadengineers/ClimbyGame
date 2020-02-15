@@ -1,3 +1,5 @@
+class game extend Phaser.scene{
+
 var config = {
     type: Phaser.AUTO,
     width: 800,
@@ -42,4 +44,5 @@ function create ()
     star.setCollideWorldBounds(true);
 
     emitter.startFollow(star);
+}
 }
