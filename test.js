@@ -1,3 +1,4 @@
+//config.js 
 import TitleScene from './titleScene.js';
 // import EndScene from './EndScene.js';
 
@@ -8,6 +9,7 @@ var config = {
     type: Phaser.AUTO,
     width: 900,
     height: 600, 
+    //include all states
     scene: [titleScene],
 };
 
