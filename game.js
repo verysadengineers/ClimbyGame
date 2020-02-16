@@ -1,4 +1,3 @@
-class game extend Phaser.scene{
 
 var config = {
     type: Phaser.AUTO,
@@ -20,14 +19,14 @@ var game = new Phaser.Game(config);
 
 function preload ()
 {
-    this.load.image('sky', 'assets/sky.png');
+    // this.load.image('sky', 'assets/sky.png');
     this.load.image('star', 'assets/star.png');
     this.load.image('bomb', 'assets/bomb.png');
 }
 
 function create ()
 {
-    this.add.image(400, 300, 'sky');
+    // this.add.image(400, 300, 'sky');
 
     var particles = this.add.particles('bomb');
 
@@ -44,5 +43,4 @@ function create ()
     star.setCollideWorldBounds(true);
 
     emitter.startFollow(star);
-}
 }

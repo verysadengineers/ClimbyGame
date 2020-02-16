@@ -1,16 +1,16 @@
 //config.js 
 import TitleScene from './titleScene.js';
-// import EndScene from './EndScene.js';
+import EndScene from './EndScene.js';
 
 let titleScene = new TitleScene; 
-// let endScene = new EndScene;
+let endScene = new EndScene;
 
 var config = {
     type: Phaser.AUTO,
     width: 900,
     height: 600, 
-    //include all states
-    scene: [titleScene],
+    backgroundColor: 0xFFFFFF,
+    scene: [titleScene, endScene],
 };
 
 // Creates game object 

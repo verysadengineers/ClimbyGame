@@ -3,20 +3,25 @@ var width = 900;
 var height = 600; 
 class EndScene extends Phaser.Scene{
   constructor(){
-  super({key:'EndScene', active: true}); 
+  super({key:'endScene'}); 
   }
   
   // Loads BG image 
   preload(){
-    this.load.image('mountainBG','./assets/Title/sampleBG.jpg');
-    //this.load.image('sky','./assets/sky.png');
+    this.load.image('CCbg','./assets/ClimbeyClimb.png');
+    this.load.image('game_over_msg','./assets/Game_over.png');
   }
 
   create(){
-    let bg = this.add.sprite(0, 0, 'mountainBG');
+    let bg = this.add.sprite(0, 230,'CCbg');
+    let msg = this.add.sprite(width/6, 140, 'game_over_msg');
     bg.setOrigin(0, 0);
+    msg.setOrigin(0, 0);
 
-    this.title_text = this.add.text(100, 200, "Hello, Title!");
+    //Restart button
+    const Restart_Button = this.add.text(width/3, height-350, 'Restart', { fill: '#000' })
+    .setInteractive()
+    // .on('pointerdown', () => { this.scene.start("titleScene")});
   }
 }
 
