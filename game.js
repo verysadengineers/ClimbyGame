@@ -49,6 +49,6 @@ function create ()
 
 function update()
 {
-    //mainCamera += 0.5;
+    //mainCamera.scrollY -= 0.5;
     Player.handlePlayerMovement(player_one_controller, player_two_controller, player_one, player_two);
 }
