@@ -18,6 +18,8 @@ export function generateMap(gameScene, player){
     mazeArray[index] = [];
   }
 
+
+
   mazeArray[0] =  [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1];
   mazeArray[1] =  [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1];
   mazeArray[2] =  [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1];
@@ -149,10 +151,10 @@ export function generateMap(gameScene, player){
   for(var i = 0; i < 124; i++){
     for(var j = 0; j < 26; j++){
       if(mazeArray[i][j] == 0){
-        paths.create(j*tileDistance, i*tileDistance, 'path').setOrigin(0).setScale(0.866);
+        paths.create(j*tileDistance, i*tileDistance, 'path').setScale(0.866);
       }
       else {
-        tiles.create(j*tileDistance, i*tileDistance, 'wall').setOrigin(0).setScale(0.866);
+        tiles.create(j*tileDistance, i*tileDistance, 'wall').setScale(0.866);
       }
     }
   }

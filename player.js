@@ -1,13 +1,18 @@
+var is_rope_max = false;
+export function isRopeMax() {
+    return is_rope_max;
+}
+
 export function createPlayerOne(game)
 {    
-    let player_one = game.physics.add.sprite(500, 450, 'dude');
+    let player_one = game.physics.add.sprite(475, 450, 'dude');
 
     return player_one;
 }
 
 export function createPlayerTwo(game)
 {
-    let player_two = game.physics.add.sprite(250, 450, 'dude');
+    let player_two = game.physics.add.sprite(350, 350, 'dude');
 
     player_two.tint = Math.random() * 0xffffff;
     return player_two;
@@ -50,15 +55,16 @@ export function initPlayerTwoController(game)
         right:Phaser.Input.Keyboard.KeyCodes.D});
 }
 
+//TODO: set max speed
 export function handlePlayerMovement(player_one_controller, player_two_controller, player_one, player_two) 
 {
-    const rope_length = 50000;
+    const rope_length = 150000;
     const player_velocity = 160;
 
     // Calculate whether the rope is at max length
     var player_distance = (player_two.y - player_one.y)*(player_two.y - player_one.y) +
         (player_two.x - player_one.x)*(player_two.x - player_one.x);
-    var is_rope_max = ((player_distance + (player_velocity * player_velocity)) > rope_length);
+    is_rope_max = ((player_distance + (player_velocity/60 * player_velocity/60)) > rope_length);
 
     var velocity_x_one = 0;
     var velocity_y_one = 0;
@@ -170,6 +176,29 @@ export function handlePlayerMovement(player_one_controller, player_two_controlle
     {
         player_two.anims.play('turn');
     }
+
+    if (velocity_x_one > player_velocity) {
+        velocity_x_one = player_velocity
+    }
+    if (velocity_y_one > player_velocity) {
+        velocity_y_one = player_velocity
+    }
+    if (velocity_x_two > player_velocity) {
+        velocity_x_two = player_velocity
+    }
+    if (velocity_y_two > player_velocity) {
+        velocity_y_two = player_velocity
+    }
+
+    var new_x_one = player_one.x + velocity_x_one/60;
+    var new_y_one = player_one.y + velocity_y_one/60;
+    var new_x_two = player_two.x + velocity_x_two/60;
+    var new_y_two = player_two.y + velocity_y_two/60 ;
+
+    var new_player_distance = (new_y_two - new_y_one)*(new_y_two - new_y_one) +
+        (new_x_two - new_x_one)*(new_x_two - new_x_one);
+    is_rope_max = ((new_player_distance) >= rope_length);
+
 
     player_one.setVelocityX(velocity_x_one);
     player_one.setVelocityY(velocity_y_one);
