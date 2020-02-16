@@ -32,6 +32,8 @@ function preload ()
     this.load.image('sky', 'assets/sky.png');
     this.load.image('star', 'assets/star.png');
     this.load.image('bomb', 'assets/bomb.png');
+
+    Snow.preload(this);
 }
 
 function create ()
@@ -46,10 +48,14 @@ function create ()
 
     player_one_controller = Player.initPlayerOneController(this);
     player_two_controller = Player.initPlayerTwoController(this);
+
+    Snow.create(this);
 }
 
 function update()
 {
     //mainCamera.scrollY -= 0.5;
     Player.handlePlayerMovement(player_one_controller, player_two_controller, player_one, player_two);
+
+    Snow.update(this);
 }
