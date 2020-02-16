@@ -1,3 +1,99 @@
+
+var config = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    backgroundColor: '#000000',
+    parent: 'phaser-example',
+    scene: {
+        physics: {
+            default: 'matter',
+            arcade: {
+                gravity: { y: 0 }
+            },
+            matter: {       
+                gravity: {
+                    y: 0.1
+                },
+                enableSleep: true,
+                debug: false,
+            },
+        },        
+        preload: preload,
+        create: create,
+        update: update,
+    }
+};
+
+
+var player_one_controller;
+var player_two_controller;
+var player_one;
+var player_two;
+var player_one_node = null;
+var player_two_node = null;
+
+var game = new Phaser.Game(config);
+
+function preload ()
+{
+    this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+    this.load.image('sky', 'assets/sky.png');
+    this.load.image('star', 'assets/bomb.png', {frameWidth: 0, frameHeight: 0});
+    this.load.image('bomb', 'assets/bomb.png');
+}
+
+function create ()
+{
+
+    this.add.image(400, 300, 'sky');
+
+
+    this.matter.world.setBounds();
+
+    var sides = 6;
+    var size = 14;
+    var distance = 0.1;
+    var stiffness = 1;
+    var lastPosition = new Phaser.Math.Vector2();
+    var options = { friction: 0.005, frictionAir: 0, restitution: 0, inertia: Infinity};
+    var pinOptions = { friction: 0, frictionAir: 0, restitution: 0, ignoreGravity: true, inertia: Infinity, isStatic: true };
+
+    //player_one_node = this.matter.add.polygon(300, 400, sides, size, options);
+    player_one_node = this.matter.add.sprite(1, 1, 'star', { restitution: 0, friction: 0.25, shape: "circle", inertia: Infinity}).setSize(0.1);
+
+    var prev = player_one_node;
+    var curr = prev;
+
+    for (var i = 0; i < 100; i++) {
+        curr = this.matter.add.sprite(1, 1, 'star', options).setScale(0.1).setFixedRotation();
+        this.matter.add.constraint(prev, curr, distance, stiffness);
+        prev = curr;
+    }
+
+    player_two_node = this.matter.add.sprite(1, 1, 'star', { restitution: 0, friction: 0.25, shape: "circle" , inertia: Infinity}).setSize(0.1);
+
+    this.matter.add.constraint(curr, player_two_node, distance, stiffness);
+
+    player_one = createPlayerOne(this);
+    player_two = createPlayerTwo(this);
+
+    initAnimations(this);
+
+    player_one_controller = initPlayerOneController(this);
+    player_two_controller = initPlayerTwoController(this);
+
+
+}
+
+function update()
+{
+    //mainCamera += 0.5;
+    handlePlayerMovement(player_one_controller, player_two_controller, player_one, player_two);
+    player_one_node.setPosition(player_one.x, player_one.y);
+    player_two_node.setPosition(player_two.x, player_two.y);
+}
+
 export function createPlayerOne(game)
 {    
     let player_one = game.physics.add.sprite(500, 450, 'dude');
@@ -52,7 +148,7 @@ export function initPlayerTwoController(game)
 
 export function handlePlayerMovement(player_one_controller, player_two_controller, player_one, player_two) 
 {
-    const rope_length = 49729;
+    const rope_length = 150000;
     const player_velocity = 160;
 
     // Calculate whether the rope is at max length
