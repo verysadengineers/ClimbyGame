@@ -1,4 +1,5 @@
 import * as Player from '/player.js'
+import * as Snow from '/snow.js'
 
 var config = {
     type: Phaser.AUTO,
