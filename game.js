@@ -4,7 +4,7 @@ import * as Rope from '/rope.js'
 
 var config = {
     type: Phaser.AUTO,
-    width: 800,
+    width: 650,
     height: 1800,
     backgroundColor: '#000000',
     scene: {
@@ -48,6 +48,9 @@ function preload ()
     this.load.image('wall', 'assets/wall.png')
     this.load.image('path', 'assets/path.png')
     this.load.image('tile', 'assets/tile.png')
+    this.load.audio('bgm','assets/bgm.mp3');
+    this.load.audio('climb','assets/theclimb.mp3');
+    this.load.audio('title','assets/title.mp3');
     //this.load.image('bomb', 'assets/bomb.png');
 }
 
@@ -55,6 +58,9 @@ function create ()
 {
     //mainCamera = this.cameras.main;
     this.add.image(400, 300, 'sky');
+    let music = this.sound.add('bgm');
+    music.setLoop(true);
+    music.play();
 
 
     let playerMap = Map.generateMap(this, 0);
