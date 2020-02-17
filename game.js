@@ -4,8 +4,8 @@ import * as Rope from '/rope.js'
 
 var config = {
     type: Phaser.AUTO,
-    width: 650,
-    height: 1800,
+    width: 725,
+    height: 600,
     backgroundColor: '#000000',
     scene: {
         physics: {
@@ -13,14 +13,14 @@ var config = {
             arcade: {
                 gravity: { y: 0 }
             },
-            matter: {       
+            matter: {
                 gravity: {
                     y: 0.1
                 },
                 enableSleep: true,
                 debug: false,
             },
-        },        
+        },
         preload: preload,
         create: create,
         update: update
@@ -33,7 +33,7 @@ var player_one;
 var player_two;
 var player_one_collide = false;
 var player_two_collide = false;
-//var mainCamera;
+var mainCamera;
 
 var rope;
 
@@ -51,13 +51,11 @@ function preload ()
     this.load.audio('bgm','assets/bgm.mp3');
     this.load.audio('climb','assets/theclimb.mp3');
     this.load.audio('title','assets/title.mp3');
-    //this.load.image('bomb', 'assets/bomb.png');
 }
 
 function create ()
 {
-    //mainCamera = this.cameras.main;
-    this.add.image(400, 300, 'sky');
+    mainCamera = this.cameras.main;
     let music = this.sound.add('bgm');
     music.setLoop(true);
     music.play();
@@ -76,7 +74,7 @@ function create ()
     this.physics.add.collider(player_two, playerMap, null, function () {
         player_two_collide = true;
     });
-    
+
     Player.initAnimations(this);
 
     player_one_controller = Player.initPlayerOneController(this);
@@ -87,7 +85,7 @@ function create ()
 
 function update()
 {
-    //mainCamera.scrollY -= 0.5;
+    mainCamera.scrollY -= 0.5;
     Player.handlePlayerMovement(player_one_controller, player_two_controller, player_one, player_two);
     if (player_one_collide == true && Player.isRopeMax()) {
         player_two.setVelocity(0);
@@ -102,7 +100,7 @@ function update()
     this.matter.add.worldConstraint(rope[0], 2, 0.9, {
         pointA: { x: player_two.x, y: player_two.y},
     });
-      
+
     // attaching the last segment to the right side
     this.matter.add.worldConstraint(rope[rope.length - 1], 2, 0.9, {
         pointA: { x: player_one.x, y: player_one.y },
