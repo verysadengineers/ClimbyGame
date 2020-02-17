@@ -1,4 +1,3 @@
-// NOT USED
 export function createPlayerOne(game)
 {    
     let player_one = game.physics.add.sprite(500, 450, 'dude');
@@ -53,7 +52,7 @@ export function initPlayerTwoController(game)
 
 export function handlePlayerMovement(player_one_controller, player_two_controller, player_one, player_two) 
 {
-    const rope_length = 50000;
+    const rope_length = 150000;
     const player_velocity = 160;
 
     // Calculate whether the rope is at max length
