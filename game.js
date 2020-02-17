@@ -1,73 +1,84 @@
-import TitleScene from './titleScene.js';
-import EndScene from './EndScene.js';
-import VictoryScene from './VictoryScene.js';
 
-var bg_color; 
-var bg; 
-var clouds1;
-let titleScene = new TitleScene; 
-let endScene = new EndScene;
-let victoryScene = new VictoryScene; 
+import * as Player from '/player.js'
+import * as Map from '/map.js'
+import * as Rope from '/rope.js'
 
-var config = {
-    type: Phaser.AUTO,
-    width: 900,
-    height: 600,
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 0 }
+var player_one_controller;
+var player_two_controller;
+var player_one;
+var player_two;
+var player_one_collide = false;
+var player_two_collide = false;
+//var mainCamera;
+
+var rope;
+class GameScene extends Phaser.Scene {
+    constructor(physics){
+        super({key:'gameScene'})
+      }
+
+    preload ()
+    {
+        this.load.spritesheet('blue', 'assets/Blue.png', { frameWidth: 33, frameHeight: 48 });
+        this.load.spritesheet('red', 'assets/Red.png', { frameWidth: 33, frameHeight: 48 });
+        this.load.image('sky', 'assets/sky.png');
+        this.load.image('star', 'assets/star.png');
+        this.load.image('wall', 'assets/wall.png')
+        this.load.image('path', 'assets/path.png')
+        this.load.image('tile', 'assets/tile.png')
+        //this.load.image('bomb', 'assets/bomb.png');
+    }
+
+    create ()
+    {
+        //mainCamera = this.cameras.main;
+        this.add.image(400, 300, 'sky');
+
+        console.log(this.physics);
+
+        let playerMap = Map.generateMap(this, 0);
+        rope = Rope.createRope(this);
+
+        player_one = Player.createPlayerOne(this);
+        player_two = Player.createPlayerTwo(this);
+
+        this.physics.add.collider(player_one, playerMap, null, function () {
+            player_one_collide = true;
+
+        });
+        this.physics.add.collider(player_two, playerMap, null, function () {
+            player_two_collide = true;
+        });
+        
+        Player.initAnimations(this);
+
+        player_one_controller = Player.initPlayerOneController(this);
+        player_two_controller = Player.initPlayerTwoController(this);
+    }
+
+    update()
+    {
+        //mainCamera.scrollY -= 0.5;
+        Player.handlePlayerMovement(player_one_controller, player_two_controller, player_one, player_two);
+        if (player_one_collide == true && Player.isRopeMax()) {
+            player_two.setVelocity(0);
+            player_one_collide = false;
         }
-    },
-    scene:[titleScene, endScene, victoryScene]
-    };
+        if (player_two_collide == true && Player.isRopeMax()) {
+            player_one.setVelocity(0);
+            player_two_collide = false;
+        }
 
-var game = new Phaser.Game(config);
-
-function preload ()
-{   
-    this.load.image('bgColor', './assets/Title/bg_c.png');
-    this.load.image('CCbg','./assets/Title/bg.png');
-    this.load.spritesheet('clouds', './assets/Sprites/clouds100x100.png', {frameWidth: 100}, {frameHeight: 100});
+        // attaching the first segment to the left side
+        this.matter.add.worldConstraint(rope[0], 2, 0.9, {
+            pointA: { x: player_two.x, y: player_two.y},
+        });
+        
+        // attaching the last segment to the right side
+        this.matter.add.worldConstraint(rope[rope.length - 1], 2, 0.9, {
+            pointA: { x: player_one.x, y: player_one.y },
+        });
+    }
 }
 
-function create ()
-{
-    //bg colour and graphic
-    bg_color = this.add.sprite(0, 0, 'bgColor');
-    bg = this.add.sprite(0, 230, 'CCbg');
-
-    // cloud animation     
-    clouds1 = this.physics.add.group({key: 'clouds',
-    repeat: 4, 
-    setXY: {x: 10, y:70, stepX: 300, stepY: 0}
-    });
-
-    this.anims.create({
-      key: 'move',
-      repeat: -1,
-      frameRate: 1,
-      frames: this.anims.generateFrameNumbers('clouds', {start: 1, end: 3})
-    });
-
-    clouds1.children.iterate(clouds1 => {
-      clouds1.play('move')
-    })
-
-    bg.setOrigin(0, 0);
-    bg_color.setOrigin(0,0);
-    bg.width = this.gamewidth /2;
-    
-    bg.height = this.gameheight /2;
-
-    //titleScene.preload(this);
-    // titleScene.create(this);
-    // victoryScene.create(this);
-    // endScene.create(this);
-
-    
-    // game.scene.add("titleScene");
-    // game.scene.start("titleScene");
-}
-
-
+export default GameScene; 

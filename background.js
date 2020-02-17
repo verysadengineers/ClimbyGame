@@ -15,7 +15,7 @@ export function create(game) {
     let clouds = game.physics.add.group({
         key: 'clouds',
         repeat: 4, 
-        setXY: {x: 10, y:70, stepX: 300, stepY: 0}
+        setXY: {x: 10, y:80, stepX: 300, stepY: 0}
     });
 
     game.anims.create({

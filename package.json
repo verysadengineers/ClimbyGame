@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "generate-maze": "^0.2.0",
     "phaser": "^3.22.0"
   },
   "devDependencies": {},

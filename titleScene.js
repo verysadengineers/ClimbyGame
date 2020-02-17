@@ -9,11 +9,15 @@ var clouds1;
 
 class TitleScene extends Phaser.Scene{
   constructor(){
-    super({key:'titleScene', active: true})
-   //this.gameScene = g;
+    super({key:'titleScene', active: true, 
+    physics: {
+      default: 'arcade',
+      arcade: {
+          gravity: { y: 0 }
+        }, 
+      },
+    })
   }
-
-  // var gameScene;
 
   preload(){
     Background.preload(this);
@@ -29,7 +33,7 @@ class TitleScene extends Phaser.Scene{
     // Click on text button to start 
     const Start_Button = this.add.text(width/3, height-350, 'Click to start!', { fill: '#000' })
     .setInteractive()
-    .on('pointerdown', () => { this.scene.start("endScene")});  
+    .on('pointerdown', () => { this.scene.start("gameScene")});  
 
   }
 }
