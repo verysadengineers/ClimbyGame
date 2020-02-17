@@ -1,3 +1,5 @@
+import * as Rope from '/rope.js'
+
 var config = {
     type: Phaser.AUTO,
     width: 800,
@@ -30,7 +32,7 @@ var player_one;
 var player_two;
 //var mainCamera;
 
-var ropeSegment;
+var rope;
 
 var game = new Phaser.Game(config);
 
@@ -49,36 +51,7 @@ function create ()
     //mainCamera = this.cameras.main;
     this.add.image(400, 300, 'sky');
 
-    this.matter.world.setBounds();
-    let group = this.matter.world.nextGroup(true)
-
-    // creates a new segment
-    var newSegment = (x, y) => {
-        return this.matter.add
-        .image(x, y, 'tile')
-        .setScale(0.15, 0.2)
-        .setBody(
-            { type: 'rectangle' },
-            { collisionFilter: { group: group }, chamfer: 5, density: 0.005, frictionAir: 0.05 }
-        )
-    }
-  
-    let segmentPosition = []
-    let BRIDGE_LENGTH = 40
-  
-    // calculate the positions of segments
-    for (let i = 0; i < BRIDGE_LENGTH; i++) segmentPosition.push({ x: 150 + i * 50, y: 250 })
-  
-    // make all the wood planks
-    ropeSegment = segmentPosition.map(pos => newSegment(pos.x, pos.y))
-  
-    // attaching each segment to the next one
-    for (let i = 0; i < ropeSegment.length - 1; i++) {
-        this.matter.add.constraint(ropeSegment[i], ropeSegment[i + 1], 3, 1, {
-            pointA: { x: 2, y: 0 },
-            pointB: { x: -2, y: 0 }
-        })
-    }
+    rope = Rope.createRope(this);
 
     player_one = createPlayerOne(this);
     player_two = createPlayerTwo(this);
@@ -95,15 +68,13 @@ function update()
     handlePlayerMovement(player_one_controller, player_two_controller, player_one, player_two);
 
     // attaching the first segment to the left side
-    this.matter.add.worldConstraint(ropeSegment[0], 2, 0.9, {
+    this.matter.add.worldConstraint(rope[0], 2, 0.9, {
         pointA: { x: player_two.x, y: player_two.y},
-        // pointB: { x: 20, y: 0 }
     });
       
     // attaching the last segment to the right side
-    this.matter.add.worldConstraint(ropeSegment[ropeSegment.length - 1], 2, 0.9, {
+    this.matter.add.worldConstraint(rope[rope.length - 1], 2, 0.9, {
         pointA: { x: player_one.x, y: player_one.y },
-        // pointB: { x: -25, y: 0 }
     });
 }
 
