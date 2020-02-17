@@ -10,15 +10,23 @@ let victoryScene = new VictoryScene;
 
 var config = {
     type: Phaser.AUTO,
-    width: 900,
-    height: 600,
+    width: 800,
+    height: 1800,
+    backgroundColor: '#000000',
     physics: {
-        default: 'arcade',
+        default: 'matter',
         arcade: {
             gravity: { y: 0 }
-        }
-    },
-    scene:[titleScene, gameScene, endScene, victoryScene]
-    };
+        },
+        matter: {       
+            gravity: {
+                y: 0.1
+            },
+            enableSleep: true,
+            debug: false,
+        },
+    },        
+    scene:[titleScene, gameScene, endScene, victoryScene],
+};
 
 var game = new Phaser.Game(config);
