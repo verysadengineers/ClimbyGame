@@ -41,7 +41,8 @@ var game = new Phaser.Game(config);
 
 function preload ()
 {
-    this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+    this.load.spritesheet('blue', 'assets/Blue.png', { frameWidth: 33, frameHeight: 48 });
+    this.load.spritesheet('red', 'assets/Red.png', { frameWidth: 33, frameHeight: 48 });
     this.load.image('sky', 'assets/sky.png');
     this.load.image('star', 'assets/star.png');
     this.load.image('wall', 'assets/wall.png')

@@ -5,39 +5,44 @@ export function isRopeMax() {
 
 export function createPlayerOne(game)
 {    
-    let player_one = game.physics.add.sprite(475, 450, 'dude');
+    let player_one = game.physics.add.sprite(475, 450, 'red');
 
     return player_one;
 }
 
 export function createPlayerTwo(game)
 {
-    let player_two = game.physics.add.sprite(350, 350, 'dude');
+    let player_two = game.physics.add.sprite(350, 350, 'blue');
 
-    player_two.tint = Math.random() * 0xffffff;
     return player_two;
 }
 
 export function initAnimations(game) 
 {
     game.anims.create({
-        key: 'left',
-        frames: game.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+        key: 'blueMove',
+        frames: game.anims.generateFrameNumbers('blue', { start: 0, end: 3 }),
         frameRate: 10,
         repeat: -1
     });
 
     game.anims.create({
-        key: 'turn',
-        frames: [ { key: 'dude', frame: 4 } ],
+        key: 'blueStill',
+        frames: [ { key: 'blue', frame: 1 } ],
         frameRate: 20
     });
 
     game.anims.create({
-        key: 'right',
-        frames: game.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
+        key: 'redMove',
+        frames: game.anims.generateFrameNumbers('red', { start: 0, end: 3 }),
         frameRate: 10,
         repeat: -1
+    });
+
+    game.anims.create({
+        key: 'redStill',
+        frames: [ { key: 'red', frame: 1 } ],
+        frameRate: 20
     });
 }
 
@@ -80,6 +85,8 @@ export function handlePlayerMovement(player_one_controller, player_two_controlle
             velocity_y_two += -player_velocity;
             velocity_x_two += (player_one.x - player_two.x);
         }
+        player_one.anims.play('redMove', true);
+
     }
     else if (player_one_controller.down.isDown)
     {
@@ -89,10 +96,7 @@ export function handlePlayerMovement(player_one_controller, player_two_controlle
             velocity_y_two += player_velocity;
             velocity_x_two += (player_one.x - player_two.x);
         }
-    }
-    else
-    {
-        //reset sprite
+        player_one.anims.play('redMove', true);
     }
 
     // Player 1 horizontal movement
@@ -105,7 +109,7 @@ export function handlePlayerMovement(player_one_controller, player_two_controlle
             velocity_y_two += (player_one.y - player_two.y);
         }
 
-        player_one.anims.play('left', true);
+        player_one.anims.play('redMove', true);
     }
     else if (player_one_controller.right.isDown)
     {
@@ -116,11 +120,7 @@ export function handlePlayerMovement(player_one_controller, player_two_controlle
             velocity_y_two += (player_one.y - player_two.y);
         }
 
-        player_one.anims.play('right', true);
-    }
-    else
-    {
-        player_one.anims.play('turn');
+        player_one.anims.play('redMove', true);
     }
 
     // Player 2 vertical movement
@@ -133,6 +133,7 @@ export function handlePlayerMovement(player_one_controller, player_two_controlle
             velocity_y_one += -player_velocity;
             velocity_x_one += (player_two.x - player_one.x);
         }
+        player_two.anims.play('blueMove', true);
     }
     else if (player_two_controller.down.isDown)
     {
@@ -143,10 +144,7 @@ export function handlePlayerMovement(player_one_controller, player_two_controlle
             velocity_y_one += player_velocity;
             velocity_x_one += (player_two.x - player_one.x);
         }
-    }
-    else
-    {
-        //reset sprite
+        player_two.anims.play('blueMove', true);
     }
 
     // Player 2 horizontal movement
@@ -159,7 +157,7 @@ export function handlePlayerMovement(player_one_controller, player_two_controlle
             velocity_y_one += (player_two.y - player_one.y);
         }
 
-        player_two.anims.play('left', true);
+        player_two.anims.play('blueMove', true);
     }
     else if (player_two_controller.right.isDown)
     {
@@ -170,11 +168,7 @@ export function handlePlayerMovement(player_one_controller, player_two_controlle
             velocity_y_one += (player_two.y - player_one.y);
         }
 
-        player_two.anims.play('right', true);
-    }
-    else
-    {
-        player_two.anims.play('turn');
+        player_two.anims.play('blueMove', true);
     }
 
     if (velocity_x_one > player_velocity) {
@@ -198,6 +192,13 @@ export function handlePlayerMovement(player_one_controller, player_two_controlle
     var new_player_distance = (new_y_two - new_y_one)*(new_y_two - new_y_one) +
         (new_x_two - new_x_one)*(new_x_two - new_x_one);
     is_rope_max = ((new_player_distance) >= rope_length);
+
+    if (velocity_x_one == 0 && velocity_y_one == 0) {
+        player_one.anims.play("redStill", true);
+    }
+    if (velocity_x_two == 0 && velocity_y_two == 0) {
+        player_two.anims.play("blueStill", true);
+    }
 
 
     player_one.setVelocityX(velocity_x_one);
