@@ -56,7 +56,7 @@ function preload ()
 function create ()
 {
     mainCamera = this.cameras.main;
-    let music = this.sound.add('bgm');
+    let music = this.sound.add('climb');
     music.setLoop(true);
     music.play();
 
@@ -75,6 +75,14 @@ function create ()
         player_two_collide = true;
     });
 
+    this.physics.add.collider(player_one, mainCamera, null, function(){
+      player_one_collide = true;
+    });
+    this.physics.add.collider(player_two, mainCamera, null, function(){
+      player_two_collide = true;
+    });
+
+
     Player.initAnimations(this);
 
     player_one_controller = Player.initPlayerOneController(this);
@@ -86,6 +94,8 @@ function create ()
 function update()
 {
     mainCamera.scrollY -= 0.5;
+    mainCamera.width = 725;
+    mainCamera.height = 600;
     Player.handlePlayerMovement(player_one_controller, player_two_controller, player_one, player_two);
     if (player_one_collide == true && Player.isRopeMax()) {
         player_two.setVelocity(0);
