@@ -5,14 +5,14 @@ export function isRopeMax() {
 
 export function createPlayerOne(game)
 {
-    let player_one = game.physics.add.sprite(500, 550, 'red');
+    let player_one = game.physics.add.sprite(470, 550, 'red');
 
     return player_one;
 }
 
 export function createPlayerTwo(game)
 {
-    let player_two = game.physics.add.sprite(255, 550, 'blue');
+    let player_two = game.physics.add.sprite(165, 550, 'blue');
 
     return player_two;
 }
