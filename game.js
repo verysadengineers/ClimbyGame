@@ -1,31 +1,7 @@
+
 import * as Player from '/player.js'
 import * as Map from '/map.js'
 import * as Rope from '/rope.js'
-
-var config = {
-    type: Phaser.AUTO,
-    width: 725,
-    height: 600,
-    backgroundColor: '#000000',
-    scene: {
-        physics: {
-            default: 'matter',
-            arcade: {
-                gravity: { y: 0 }
-            },
-            matter: {
-                gravity: {
-                    y: 0.1
-                },
-                enableSleep: true,
-                debug: false,
-            },
-        },
-        preload: preload,
-        create: create,
-        update: update
-    }
-};
 
 var player_one_controller;
 var player_two_controller;
@@ -36,11 +12,13 @@ var player_two_collide = false;
 var mainCamera;
 
 var rope;
+class GameScene extends Phaser.Scene {
+    constructor(physics){
+        super({key:'gameScene', physics: physics})
+    }
 
-var game = new Phaser.Game(config);
-
-function preload ()
-{
+    preload ()
+    {
     this.load.spritesheet('blue', 'assets/Blue.png', { frameWidth: 33, frameHeight: 48 });
     this.load.spritesheet('red', 'assets/Red.png', { frameWidth: 33, frameHeight: 48 });
     this.load.image('sky', 'assets/sky.png');
@@ -51,47 +29,43 @@ function preload ()
     this.load.audio('bgm','assets/bgm.mp3');
     this.load.audio('climb','assets/theclimb.mp3');
     this.load.audio('title','assets/title.mp3');
-}
+    }
 
-function create ()
-{
-    mainCamera = this.cameras.main;
-    let music = this.sound.add('climb');
-    music.setLoop(true);
-    music.play();
+    create ()
+    {
+        mainCamera = this.cameras.main;
+        let music = this.sound.add('climb');
+        music.setLoop(true);
+        music.play();
 
 
-    let playerMap = Map.generateMap(this, 0);
-    rope = Rope.createRope(this);
+        let playerMap = Map.generateMap(this, 0);
+        rope = Rope.createRope(this);
 
-    player_one = Player.createPlayerOne(this);
-    player_two = Player.createPlayerTwo(this);
+        player_one = Player.createPlayerOne(this);
+        player_two = Player.createPlayerTwo(this);
 
-    this.physics.add.collider(player_one, playerMap, null, function () {
+        this.physics.add.collider(player_one, playerMap, null, function () {
+            player_one_collide = true;
+        });
+        this.physics.add.collider(player_two, playerMap, null, function () {
+            player_two_collide = true;
+        });
+
+        this.physics.add.collider(player_one, mainCamera, null, function(){
         player_one_collide = true;
-
-    });
-    this.physics.add.collider(player_two, playerMap, null, function () {
+        });
+        this.physics.add.collider(player_two, mainCamera, null, function(){
         player_two_collide = true;
-    });
+        });
 
-    this.physics.add.collider(player_one, mainCamera, null, function(){
-      player_one_collide = true;
-    });
-    this.physics.add.collider(player_two, mainCamera, null, function(){
-      player_two_collide = true;
-    });
+        Player.initAnimations(this);
 
+        player_one_controller = Player.initPlayerOneController(this);
+        player_two_controller = Player.initPlayerTwoController(this);
+    }
 
-    Player.initAnimations(this);
-
-    player_one_controller = Player.initPlayerOneController(this);
-    player_two_controller = Player.initPlayerTwoController(this);
-
-
-}
-
-function update()
+update()
 {
     mainCamera.scrollY -= 0.5;
     mainCamera.width = 725;
@@ -116,3 +90,6 @@ function update()
         pointA: { x: player_one.x, y: player_one.y },
     });
 }
+}
+
+export default GameScene; 
