@@ -4,20 +4,20 @@ export function isRopeMax() {
 }
 
 export function createPlayerOne(game)
-{    
-    let player_one = game.physics.add.sprite(475, 450, 'red');
+{
+    let player_one = game.physics.add.sprite(470, 550, 'red');
 
     return player_one;
 }
 
 export function createPlayerTwo(game)
 {
-    let player_two = game.physics.add.sprite(350, 350, 'blue');
+    let player_two = game.physics.add.sprite(165, 550, 'blue');
 
     return player_two;
 }
 
-export function initAnimations(game) 
+export function initAnimations(game)
 {
     game.anims.create({
         key: 'blueMove',
@@ -46,12 +46,12 @@ export function initAnimations(game)
     });
 }
 
-export function initPlayerOneController(game) 
+export function initPlayerOneController(game)
 {
     return game.input.keyboard.createCursorKeys();
 }
 
-export function initPlayerTwoController(game) 
+export function initPlayerTwoController(game)
 {
     return game.input.keyboard.addKeys(
         {up:Phaser.Input.Keyboard.KeyCodes.W,
@@ -61,7 +61,7 @@ export function initPlayerTwoController(game)
 }
 
 //TODO: set max speed
-export function handlePlayerMovement(player_one_controller, player_two_controller, player_one, player_two) 
+export function handlePlayerMovement(player_one_controller, player_two_controller, player_one, player_two)
 {
     const rope_length = 150000;
     const player_velocity = 160;
@@ -80,7 +80,7 @@ export function handlePlayerMovement(player_one_controller, player_two_controlle
     if (player_one_controller.up.isDown)
     {
         velocity_y_one += -player_velocity;
-        if (is_rope_max && (player_two.y > player_one.y)) 
+        if (is_rope_max && (player_two.y > player_one.y))
         {
             velocity_y_two += -player_velocity;
             velocity_x_two += (player_one.x - player_two.x);
@@ -91,7 +91,7 @@ export function handlePlayerMovement(player_one_controller, player_two_controlle
     else if (player_one_controller.down.isDown)
     {
         velocity_y_one += player_velocity;
-        if (is_rope_max && (player_two.y < player_one.y)) 
+        if (is_rope_max && (player_two.y < player_one.y))
         {
             velocity_y_two += player_velocity;
             velocity_x_two += (player_one.x - player_two.x);
@@ -103,7 +103,7 @@ export function handlePlayerMovement(player_one_controller, player_two_controlle
     if (player_one_controller.left.isDown)
     {
         velocity_x_one += -player_velocity;
-        if (is_rope_max && (player_two.x > player_one.x)) 
+        if (is_rope_max && (player_two.x > player_one.x))
         {
             velocity_x_two += -player_velocity;
             velocity_y_two += (player_one.y - player_two.y);
@@ -114,7 +114,7 @@ export function handlePlayerMovement(player_one_controller, player_two_controlle
     else if (player_one_controller.right.isDown)
     {
         velocity_x_one += player_velocity;
-        if (is_rope_max && (player_two.x < player_one.x)) 
+        if (is_rope_max && (player_two.x < player_one.x))
         {
             velocity_x_two += player_velocity;
             velocity_y_two += (player_one.y - player_two.y);
@@ -128,7 +128,7 @@ export function handlePlayerMovement(player_one_controller, player_two_controlle
     {
         velocity_y_two += -player_velocity;
 
-        if (is_rope_max && (player_two.y < player_one.y)) 
+        if (is_rope_max && (player_two.y < player_one.y))
         {
             velocity_y_one += -player_velocity;
             velocity_x_one += (player_two.x - player_one.x);
@@ -139,7 +139,7 @@ export function handlePlayerMovement(player_one_controller, player_two_controlle
     {
         velocity_y_two += player_velocity;
 
-        if (is_rope_max && (player_two.y > player_one.y)) 
+        if (is_rope_max && (player_two.y > player_one.y))
         {
             velocity_y_one += player_velocity;
             velocity_x_one += (player_two.x - player_one.x);
@@ -151,7 +151,7 @@ export function handlePlayerMovement(player_one_controller, player_two_controlle
     if (player_two_controller.left.isDown)
     {
         velocity_x_two += -player_velocity;
-        if (is_rope_max && (player_two.x < player_one.x)) 
+        if (is_rope_max && (player_two.x < player_one.x))
         {
             velocity_x_one += -player_velocity;
             velocity_y_one += (player_two.y - player_one.y);
@@ -162,7 +162,7 @@ export function handlePlayerMovement(player_one_controller, player_two_controlle
     else if (player_two_controller.right.isDown)
     {
         velocity_x_two += player_velocity;
-        if (is_rope_max && (player_two.x > player_one.x)) 
+        if (is_rope_max && (player_two.x > player_one.x))
         {
             velocity_x_one += player_velocity;
             velocity_y_one += (player_two.y - player_one.y);
