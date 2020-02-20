@@ -5,8 +5,8 @@ var width = 900;
 var height = 600; 
 
 class VictoryScene extends Phaser.Scene{
-  constructor(){
-  super({key:'victoryScene'})
+  constructor(physics){
+  super({key:'victoryScene', physics: physics})
   }
 
   // Loads BG image 

@@ -8,15 +8,8 @@ var bg;
 var clouds1;
 
 class TitleScene extends Phaser.Scene{
-  constructor(){
-    super({key:'titleScene', active: true, 
-    physics: {
-      default: 'arcade',
-      arcade: {
-          gravity: { y: 0 }
-        }, 
-      },
-    })
+  constructor(physics){
+    super({key:'titleScene', active: true, physics: physics})
   }
 
   preload(){

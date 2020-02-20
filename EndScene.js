@@ -5,8 +5,8 @@ var width = 900;
 var height = 600; 
 
 class EndScene extends Phaser.Scene{
-  constructor(){
-  super({key:'endScene'})
+  constructor(physics){
+  super({key:'endScene', physics: physics})
   }
   
   // Loads BG image 

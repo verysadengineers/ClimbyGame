@@ -14,8 +14,8 @@ var player_two_collide = false;
 var rope;
 class GameScene extends Phaser.Scene {
     constructor(physics){
-        super({key:'gameScene'})
-      }
+        super({key:'gameScene', physics: physics})
+    }
 
     preload ()
     {
