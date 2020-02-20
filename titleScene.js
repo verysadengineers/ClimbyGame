@@ -22,6 +22,7 @@ class TitleScene extends Phaser.Scene{
   preload(){
     Background.preload(this);
     this.load.image('logo', './assets/Title/logo_o.png');
+    console.log(this.scene);
   }
 
   create(){
